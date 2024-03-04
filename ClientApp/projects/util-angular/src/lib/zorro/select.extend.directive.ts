@@ -188,7 +188,7 @@ export class SelectExtendDirective implements OnInit, OnDestroy {
             debounceTime(this.searchDelay),
             distinctUntilChanged(),
             switchMap(value => this.serverSearch(value))
-        );
+        );        
         this.util.webapi.handle<SelectItem[]>(client$, {
             before: () => {
                 this.loading = true;
@@ -202,6 +202,7 @@ export class SelectExtendDirective implements OnInit, OnDestroy {
                 this.loading = false;
             }
         })
+        this.loading = false;
     }
 
     /**
@@ -349,6 +350,7 @@ export class SelectExtendDirective implements OnInit, OnDestroy {
      * @param queryParam 查询参数
      */
     refresh(queryParam?: QueryParameter) {
+        this.isScrollLoadCompleted = false;
         if (queryParam) {
             this.queryParam = queryParam;
             this.queryParamChange.emit(queryParam);
